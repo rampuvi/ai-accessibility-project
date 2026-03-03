@@ -1,0 +1,2383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Co-Design Project — Centennial College &amp; Community Living Toronto</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lexend:wght@300;400;500;600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* ========================================
+   CSS CUSTOM PROPERTIES
+   ======================================== */
+:root {
+  --color-primary: #2563EB;
+  --color-primary-light: #DBEAFE;
+  --color-primary-dark: #1E40AF;
+  --color-accent-warm: #F59E0B;
+  --color-accent-green: #059669;
+  --color-accent-rose: #E11D48;
+  --color-bg: #FAFAF9;
+  --color-surface: #FFFFFF;
+  --color-text: #1C1917;
+  --color-text-secondary: #57534E;
+  --color-text-muted: #A8A29E;
+  --color-border: #E7E5E4;
+  --color-border-strong: #D6D3D1;
+  --color-depth-anyone: #8B5CF6;
+  --color-depth-support: #0891B2;
+  --color-depth-research: #D97706;
+  --color-depth-dev: #059669;
+  --color-depth-org: #DC2626;
+  --space-xs: 0.25rem;
+  --space-sm: 0.5rem;
+  --space-md: 1rem;
+  --space-lg: 1.5rem;
+  --space-xl: 2rem;
+  --space-2xl: 3rem;
+  --space-3xl: 4rem;
+  --space-4xl: 6rem;
+  --radius-card: 12px;
+  --radius-btn: 8px;
+  --radius-pill: 20px;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.08);
+  --shadow-elevated: 0 4px 12px rgba(0,0,0,0.1);
+  --font-size-base: 1.125rem;
+  --line-height-body: 1.7;
+  --line-height-heading: 1.3;
+}
+
+/* ========================================
+   RESET & BASE
+   ======================================== */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html {
+  font-size: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Atkinson Hyperlegible', 'Lexend', sans-serif;
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-body);
+  color: var(--color-text);
+  background: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lexend', sans-serif;
+  line-height: var(--line-height-heading);
+  color: var(--color-text);
+}
+
+h1 { font-size: 2.5rem; font-weight: 600; }
+h2 { font-size: 1.8rem; font-weight: 600; }
+h3 { font-size: 1.4rem; font-weight: 500; }
+
+a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+  transition: color 0.15s ease;
+}
+a:hover { color: var(--color-primary-dark); }
+a:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+button:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+/* ========================================
+   LAYOUT
+   ======================================== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.content-width {
+  max-width: 65ch;
+}
+
+.page {
+  display: none;
+  padding-top: var(--space-4xl);
+  padding-bottom: var(--space-4xl);
+  animation: fadeIn 0.3s ease;
+}
+
+.page.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   ACCESSIBILITY TOOLBAR
+   ======================================== */
+.a11y-toolbar {
+  position: fixed;
+  bottom: var(--space-lg);
+  right: var(--space-lg);
+  z-index: 1000;
+  display: flex;
+  gap: var(--space-xs);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-card);
+  padding: var(--space-sm);
+  box-shadow: var(--shadow-elevated);
+}
+
+.a11y-toolbar button {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  font-family: 'Lexend', sans-serif;
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--color-text);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.a11y-toolbar button:hover {
+  background: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+.a11y-toolbar button.active-toggle {
+  background: var(--color-primary);
+  color: #fff;
+  border-color: var(--color-primary);
+}
+
+/* High contrast mode */
+body.high-contrast {
+  --color-bg: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-text: #000000;
+  --color-text-secondary: #222222;
+  --color-text-muted: #444444;
+  --color-border: #000000;
+  --color-border-strong: #000000;
+}
+
+/* ========================================
+   NAVIGATION
+   ======================================== */
+.site-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease;
+}
+
+.site-nav.scrolled {
+  box-shadow: var(--shadow-card);
+}
+
+.nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: var(--space-md) var(--space-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-family: 'Lexend', sans-serif;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: var(--color-text);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.nav-logo:hover { color: var(--color-primary); }
+
+.nav-links {
+  display: flex;
+  gap: var(--space-lg);
+  list-style: none;
+  align-items: center;
+}
+
+.nav-links a {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 400;
+  color: var(--color-text-secondary);
+  text-decoration: none;
+  padding: var(--space-xs) 0;
+  border-bottom: 2px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-primary);
+}
+
+.nav-links a:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Hamburger */
+.nav-hamburger {
+  display: none;
+  width: 44px;
+  height: 44px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+}
+
+.nav-hamburger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: var(--color-text);
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.nav-hamburger.open span:nth-child(1) {
+  transform: rotate(45deg) translate(5px, 5px);
+}
+.nav-hamburger.open span:nth-child(2) {
+  opacity: 0;
+}
+.nav-hamburger.open span:nth-child(3) {
+  transform: rotate(-45deg) translate(5px, -5px);
+}
+
+/* Mobile overlay */
+.nav-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  top: 60px;
+  background: var(--color-surface);
+  z-index: 99;
+  padding: var(--space-2xl);
+}
+
+.nav-overlay.open { display: flex; flex-direction: column; gap: var(--space-lg); }
+
+.nav-overlay a {
+  font-family: 'Lexend', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  padding: var(--space-md) 0;
+  border-bottom: 1px solid var(--color-border);
+  cursor: pointer;
+}
+
+.nav-overlay a:hover,
+.nav-overlay a.active { color: var(--color-primary); }
+
+/* ========================================
+   FOOTER
+   ======================================== */
+.site-footer {
+  background: var(--color-surface);
+  border-top: 1px solid var(--color-border);
+  padding: var(--space-2xl) 0;
+  margin-top: var(--space-4xl);
+}
+
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+.footer-partners { max-width: 500px; }
+.footer-partners p { margin-bottom: var(--space-sm); }
+
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.footer-links a {
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ========================================
+   COMPONENT: PAGE HEADER
+   ======================================== */
+.page-header {
+  margin-bottom: var(--space-2xl);
+}
+
+.page-header h1 {
+  max-width: 20ch;
+  margin-bottom: var(--space-lg);
+}
+
+/* ========================================
+   COMPONENT: MOMENT CALLOUT
+   ======================================== */
+.moment {
+  background: var(--color-primary-light);
+  border-left: 3px solid var(--color-primary);
+  border-radius: 0 var(--space-sm) var(--space-sm) 0;
+  padding: var(--space-lg);
+  margin: var(--space-xl) 0;
+  max-width: 65ch;
+}
+
+.moment-label {
+  display: block;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+
+.moment p {
+  font-style: italic;
+}
+
+/* ========================================
+   COMPONENT: DEPTH LAYERS
+   ======================================== */
+.depth-layers {
+  margin-top: var(--space-3xl);
+}
+
+.depth-layers-title {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-lg);
+}
+
+.depth-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+.depth-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.depth-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.depth-card[data-audience="anyone"] { border-left: 4px solid var(--color-depth-anyone); }
+.depth-card[data-audience="anyone"]:hover { border-color: var(--color-depth-anyone); }
+.depth-card[data-audience="support"] { border-left: 4px solid var(--color-depth-support); }
+.depth-card[data-audience="support"]:hover { border-color: var(--color-depth-support); }
+.depth-card[data-audience="research"] { border-left: 4px solid var(--color-depth-research); }
+.depth-card[data-audience="research"]:hover { border-color: var(--color-depth-research); }
+.depth-card[data-audience="dev"] { border-left: 4px solid var(--color-depth-dev); }
+.depth-card[data-audience="dev"]:hover { border-color: var(--color-depth-dev); }
+.depth-card[data-audience="org"] { border-left: 4px solid var(--color-depth-org); }
+.depth-card[data-audience="org"]:hover { border-color: var(--color-depth-org); }
+
+.depth-card-header {
+  padding: var(--space-lg);
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-md);
+}
+
+.depth-card-header:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: -3px;
+}
+
+.depth-audience {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: var(--space-xs);
+}
+
+.depth-card[data-audience="anyone"] .depth-audience { color: var(--color-depth-anyone); }
+.depth-card[data-audience="support"] .depth-audience { color: var(--color-depth-support); }
+.depth-card[data-audience="research"] .depth-audience { color: var(--color-depth-research); }
+.depth-card[data-audience="dev"] .depth-audience { color: var(--color-depth-dev); }
+.depth-card[data-audience="org"] .depth-audience { color: var(--color-depth-org); }
+
+.depth-desc {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+
+.depth-toggle {
+  flex-shrink: 0;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.depth-toggle svg {
+  width: 20px;
+  height: 20px;
+  stroke: var(--color-text-muted);
+}
+
+.depth-card.expanded .depth-toggle {
+  transform: rotate(180deg);
+}
+
+.depth-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.depth-card.expanded .depth-content {
+  max-height: 1000px;
+}
+
+.depth-content-inner {
+  padding: 0 var(--space-lg) var(--space-lg);
+  border-top: 1px solid var(--color-border);
+  padding-top: var(--space-lg);
+  color: var(--color-text-secondary);
+  line-height: var(--line-height-body);
+}
+
+.depth-content-inner p + p {
+  margin-top: var(--space-md);
+}
+
+/* ========================================
+   COMPONENT: NAV CARDS (Home)
+   ======================================== */
+.nav-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-lg);
+  margin-top: var(--space-2xl);
+}
+
+.nav-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  text-decoration: none;
+  color: var(--color-text);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  cursor: pointer;
+  display: block;
+}
+
+.nav-card:hover {
+  box-shadow: var(--shadow-elevated);
+  transform: translateY(-2px);
+}
+
+.nav-card:focus-visible {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.nav-card h3 {
+  margin-bottom: var(--space-sm);
+  color: var(--color-primary);
+}
+
+.nav-card p {
+  color: var(--color-text-secondary);
+  font-size: 1rem;
+}
+
+/* ========================================
+   COMPONENT: VIDEO PLACEHOLDER
+   ======================================== */
+.video-placeholder {
+  background: var(--color-border);
+  border-radius: var(--radius-card);
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: var(--space-xl) 0;
+  position: relative;
+  max-width: 800px;
+}
+
+.video-placeholder .play-icon {
+  width: 64px;
+  height: 64px;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: var(--space-md);
+}
+
+.video-placeholder .play-icon svg {
+  width: 28px;
+  height: 28px;
+  fill: var(--color-primary);
+  margin-left: 4px;
+}
+
+.video-placeholder .placeholder-label {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.video-caption {
+  margin-top: var(--space-sm);
+  color: var(--color-text-secondary);
+  font-size: 0.95rem;
+  max-width: 800px;
+}
+
+/* ========================================
+   COMPONENT: CONTENT PLACEHOLDER
+   ======================================== */
+.content-placeholder {
+  border: 2px dashed var(--color-border-strong);
+  border-radius: var(--radius-card);
+  padding: var(--space-xl);
+  margin: var(--space-xl) 0;
+  text-align: center;
+}
+
+.content-placeholder .placeholder-badge {
+  display: inline-block;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--color-text-muted);
+  background: var(--color-bg);
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+  margin-bottom: var(--space-md);
+}
+
+.content-placeholder p {
+  color: var(--color-text-muted);
+  font-size: 1rem;
+}
+
+/* ========================================
+   COMPONENT: USE CASE GRID
+   ======================================== */
+.usecase-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--space-lg);
+  margin: var(--space-2xl) 0;
+}
+
+.usecase-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-md);
+  transition: box-shadow 0.2s ease;
+}
+
+.usecase-card:hover {
+  box-shadow: var(--shadow-card);
+}
+
+.usecase-icon {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  background: var(--color-primary-light);
+  border-radius: var(--radius-btn);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.usecase-icon svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--color-primary);
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.usecase-card h3 {
+  font-size: 1.1rem;
+  margin-bottom: var(--space-xs);
+}
+
+.usecase-card p {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   COMPONENT: INTERACTIVE APP BREAKDOWN
+   ======================================== */
+.app-breakdown {
+  margin: var(--space-3xl) 0;
+}
+
+.app-container {
+  position: relative;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.app-mockup {
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8f0fe 100%);
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: var(--space-xl);
+}
+
+.app-mockup-label {
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.app-mockup-label svg {
+  width: 48px;
+  height: 48px;
+  stroke: var(--color-text-muted);
+  fill: none;
+  stroke-width: 1.5;
+  margin-bottom: var(--space-md);
+}
+
+.app-mockup-label p {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.9rem;
+}
+
+/* Hotspots */
+.hotspot {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  transition: transform 0.2s ease;
+  animation: hotspot-pulse 2s infinite;
+  border: 2px solid #fff;
+  box-shadow: var(--shadow-elevated);
+}
+
+.hotspot:hover {
+  transform: scale(1.2);
+  animation: none;
+}
+
+@keyframes hotspot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(37, 99, 235, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(37, 99, 235, 0); }
+}
+
+/* Hotspot panel */
+.hotspot-panel {
+  display: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 340px;
+  height: 100%;
+  background: var(--color-surface);
+  border-left: 1px solid var(--color-border);
+  padding: var(--space-xl);
+  overflow-y: auto;
+  z-index: 3;
+  animation: slideInRight 0.25s ease;
+}
+
+.hotspot-panel.active { display: block; }
+
+@keyframes slideInRight {
+  from { transform: translateX(20px); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+.hotspot-panel-close {
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--radius-btn);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  margin-bottom: var(--space-lg);
+  cursor: pointer;
+}
+
+.hotspot-panel-close:hover { background: var(--color-bg); }
+
+.hotspot-panel h3 {
+  margin-bottom: var(--space-md);
+}
+
+.hotspot-panel p {
+  color: var(--color-text-secondary);
+  margin-bottom: var(--space-md);
+}
+
+.hotspot-panel .more-detail-toggle {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-sm) 0;
+  text-decoration: underline;
+}
+
+.hotspot-detail {
+  display: none;
+  margin-top: var(--space-md);
+  padding-top: var(--space-md);
+  border-top: 1px solid var(--color-border);
+}
+
+.hotspot-detail.visible { display: block; }
+
+/* Mobile: numbered list fallback */
+.hotspot-list {
+  display: none;
+  margin: var(--space-2xl) 0;
+}
+
+.hotspot-list-item {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  margin-bottom: var(--space-md);
+}
+
+.hotspot-list-item .item-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  color: #fff;
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-right: var(--space-sm);
+  margin-bottom: var(--space-sm);
+}
+
+.hotspot-list-item h3 {
+  display: inline;
+  font-size: 1.1rem;
+}
+
+.hotspot-list-item p {
+  margin-top: var(--space-sm);
+  color: var(--color-text-secondary);
+}
+
+/* ========================================
+   COMPONENT: SKILL CARDS (Foundational Skills)
+   ======================================== */
+.skills-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-xl);
+  margin: var(--space-2xl) 0;
+}
+
+.skill-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-xl);
+}
+
+.skill-card h3 {
+  margin-bottom: var(--space-xs);
+}
+
+.skill-card .skill-subtitle {
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-md);
+}
+
+.skill-card p {
+  margin-bottom: var(--space-md);
+  max-width: 65ch;
+}
+
+.skill-phrases {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-md);
+}
+
+.skill-phrase {
+  display: inline-block;
+  background: var(--color-primary-light);
+  color: var(--color-primary-dark);
+  font-family: 'Lexend', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-pill);
+}
+
+.skill-why {
+  font-size: 0.95rem;
+  color: var(--color-text-secondary);
+  font-style: italic;
+}
+
+/* ========================================
+   COMPONENT: RESOURCE SECTION
+   ======================================== */
+.resource-section {
+  margin-bottom: var(--space-3xl);
+}
+
+.resource-section h2 {
+  margin-bottom: var(--space-lg);
+}
+
+.resource-section > p {
+  max-width: 65ch;
+  margin-bottom: var(--space-lg);
+}
+
+/* Accordion */
+.accordion {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+.accordion-item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.accordion-item:last-child { border-bottom: none; }
+
+.accordion-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  background: var(--color-surface);
+  text-align: left;
+  font-family: 'Lexend', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 500;
+  color: var(--color-text);
+  cursor: pointer;
+  transition: background 0.15s ease;
+  gap: var(--space-md);
+}
+
+.accordion-header:hover { background: var(--color-bg); }
+
+.accordion-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.2s ease;
+}
+
+.accordion-item.expanded .accordion-icon {
+  transform: rotate(180deg);
+}
+
+.accordion-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease;
+}
+
+.accordion-item.expanded .accordion-body {
+  max-height: 500px;
+}
+
+.accordion-body-inner {
+  padding: 0 var(--space-lg) var(--space-lg);
+  color: var(--color-text-secondary);
+}
+
+/* Team cards */
+.team-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-lg);
+  margin: var(--space-xl) 0;
+}
+
+.team-card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-card);
+  padding: var(--space-lg);
+  text-align: center;
+}
+
+.team-avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--color-primary-light);
+  margin: 0 auto var(--space-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-avatar svg {
+  width: 36px;
+  height: 36px;
+  stroke: var(--color-primary);
+  fill: none;
+  stroke-width: 1.5;
+}
+
+.team-card h3 { font-size: 1.1rem; margin-bottom: var(--space-xs); }
+.team-card .team-role {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: var(--space-sm);
+}
+.team-card p { font-size: 0.95rem; color: var(--color-text-secondary); }
+
+/* Timeline */
+.timeline {
+  position: relative;
+  padding-left: var(--space-2xl);
+  margin: var(--space-xl) 0;
+}
+
+.timeline::before {
+  content: '';
+  position: absolute;
+  left: 8px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: var(--color-border-strong);
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: var(--space-xl);
+}
+
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--space-2xl) + 4px);
+  top: 6px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+}
+
+.timeline-item h3 { font-size: 1.1rem; margin-bottom: var(--space-xs); }
+.timeline-item p { color: var(--color-text-secondary); font-size: 0.95rem; }
+
+/* Body text paragraphs */
+.body-text p {
+  max-width: 65ch;
+  margin-bottom: var(--space-lg);
+}
+
+.body-text p:last-child { margin-bottom: 0; }
+
+/* ========================================
+   RESPONSIVE
+   ======================================== */
+@media (max-width: 1024px) {
+  .nav-links { gap: var(--space-md); }
+  .hotspot-panel { width: 280px; }
+}
+
+@media (max-width: 768px) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+
+  .nav-links { display: none; }
+  .nav-hamburger { display: flex; }
+
+  .depth-grid { grid-template-columns: 1fr; }
+  .nav-cards-grid { grid-template-columns: 1fr; }
+  .usecase-grid { grid-template-columns: 1fr; }
+  .team-grid { grid-template-columns: 1fr 1fr; }
+
+  /* Hotspots: show list, hide overlay */
+  .app-mockup .hotspot { display: none; }
+  .hotspot-panel { display: none !important; }
+  .hotspot-list { display: block; }
+
+  .container { padding: 0 var(--space-lg); }
+  .page { padding-top: var(--space-2xl); padding-bottom: var(--space-2xl); }
+}
+
+@media (max-width: 480px) {
+  h1 { font-size: 1.75rem; }
+  .team-grid { grid-template-columns: 1fr; }
+  .a11y-toolbar {
+    bottom: var(--space-sm);
+    right: var(--space-sm);
+  }
+}
+</style>
+</head>
+<body>
+
+<!-- ========================================
+     NAVIGATION
+     ======================================== -->
+<nav class="site-nav" role="navigation" aria-label="Main navigation">
+  <div class="nav-inner">
+    <a class="nav-logo" data-page="home" role="button" tabindex="0" aria-label="Home">AI Co-Design Project</a>
+    <ul class="nav-links">
+      <li><a data-page="how-we-worked" tabindex="0">How We Worked</a></li>
+      <li><a data-page="discoveries" tabindex="0">What We Discovered</a></li>
+      <li><a data-page="building" tabindex="0">Building Together</a></li>
+      <li><a data-page="emerged" tabindex="0">What Emerged</a></li>
+      <li><a data-page="resources" tabindex="0">Resources</a></li>
+      <li><a data-page="about" tabindex="0">About</a></li>
+    </ul>
+    <button class="nav-hamburger" aria-label="Open menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- Mobile overlay -->
+<div class="nav-overlay" role="dialog" aria-label="Navigation menu">
+  <a data-page="home" tabindex="0">Home</a>
+  <a data-page="how-we-worked" tabindex="0">How We Worked Together</a>
+  <a data-page="discoveries" tabindex="0">What We Discovered</a>
+  <a data-page="building" tabindex="0">Building Together</a>
+  <a data-page="emerged" tabindex="0">What Emerged</a>
+  <a data-page="resources" tabindex="0">Resources</a>
+  <a data-page="about" tabindex="0">About</a>
+</div>
+
+<main id="main-content">
+
+<!-- ========================================
+     PAGE: HOME
+     ======================================== -->
+<section class="page active" id="page-home" aria-label="Home">
+  <div class="container">
+    <div class="page-header">
+      <h1 style="max-width: 22ch; font-size: 2.8rem;">AI is changing fast. The people it's meant to serve should be the ones shaping it.</h1>
+    </div>
+
+    <div class="body-text content-width">
+      <p>This is the story of a collaboration between Centennial College and Community Living Toronto, where people with intellectual and developmental disabilities explored AI alongside researchers and shaped what came out of it.</p>
+      <p>We discovered how people naturally learn to direct AI, and what becomes possible when AI works to understand people instead of asking people to understand it. People find their voice. Solutions emerge from genuine needs.</p>
+      <p>This site shares what we did, what we made, and what we discovered.</p>
+    </div>
+
+    <div class="nav-cards-grid">
+      <a class="nav-card" data-page="how-we-worked" role="button" tabindex="0">
+        <h3>How We Worked Together</h3>
+        <p>What it looked like to explore AI as partners</p>
+      </a>
+      <a class="nav-card" data-page="discoveries" role="button" tabindex="0">
+        <h3>What We Discovered</h3>
+        <p>The skills that emerged when people could direct AI on their own terms</p>
+      </a>
+      <a class="nav-card" data-page="building" role="button" tabindex="0">
+        <h3>Building Together</h3>
+        <p>The diet tracking app and how understanding becomes a working tool</p>
+      </a>
+      <a class="nav-card" data-page="emerged" role="button" tabindex="0">
+        <h3>What Emerged</h3>
+        <p>Other possibilities that surfaced from our community</p>
+      </a>
+      <a class="nav-card" data-page="resources" role="button" tabindex="0">
+        <h3>Resources</h3>
+        <p>Tips, tools, and guides for getting started</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: HOW WE WORKED TOGETHER
+     ======================================== -->
+<section class="page" id="page-how-we-worked" aria-label="How We Worked Together">
+  <div class="container">
+    <div class="page-header">
+      <h1>Nobody was the expert. That turned out to be the point.</h1>
+    </div>
+
+    <div class="body-text content-width">
+      <p>We started with interviews &mdash; online and in person &mdash; getting to know the CLTO influencers and the challenges they face day to day. Then we met. We had casual conversations about what was hard, what would help, and what people were curious about. We explored AI tools together, tried experiments, and paid attention to what happened.</p>
+    </div>
+
+    <!-- Media placeholder -->
+    <div class="video-placeholder" role="img" aria-label="Session photos and video placeholder">
+      <div class="play-icon">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="placeholder-label">Early sessions &mdash; conversations, explorations, first tries with AI</span>
+    </div>
+    <p class="video-caption">Photos and video from our early sessions together. Coming soon.</p>
+
+    <div class="body-text content-width" style="margin-top: var(--space-2xl);">
+      <p>Real needs came up quickly. Someone needed help writing a speech. Another person was looking for help with their hearing aid. Others wanted to fill out a form, find recipes, or figure out new apps. These weren't hypothetical scenarios &mdash; they were things people actually needed, and we explored them together.</p>
+    </div>
+
+    <!-- Reflection placeholder -->
+    <div class="content-placeholder">
+      <span class="placeholder-badge">Coming soon</span>
+      <p>Video reflections from team members and influencers about the collaboration experience.</p>
+    </div>
+
+    <!-- Depth layers -->
+    <div class="depth-layers">
+      <p class="depth-layers-title">Go deeper</p>
+      <div class="depth-grid">
+
+        <div class="depth-card" data-audience="support">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For support workers</p>
+              <p class="depth-desc">How to create the conditions for people to explore AI safely and on their own terms.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The most important thing we learned: don't teach. Create space. Let people bring their real questions. Stay nearby but don't hover. When someone gets stuck, ask what they're trying to do &mdash; don't take over the keyboard.</p>
+            <p>The sessions worked best when they felt like a hangout, not a class. We sat together, tried things, laughed when AI got confused, and celebrated small wins.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="research">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For researchers</p>
+              <p class="depth-desc">Our methodology, ethical considerations, and how co-design shaped the research itself.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>This project used a participatory action research approach. Community partners were not "subjects" &mdash; they were co-researchers. This changed the research questions, the methods, and the outcomes in ways we didn't anticipate.</p>
+            <p>Ethics approval was obtained through Centennial College. All participants provided informed consent, and consent was revisited throughout the project as activities evolved.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="org">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For organizations</p>
+              <p class="depth-desc">What it takes to start a similar collaboration &mdash; partnerships, funding, and trust.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The partnership between an academic institution and a community organization was essential. CLTO provided the relationships, the trust, and the understanding of the community. Centennial provided the technical capacity and research framework.</p>
+            <p>If you're considering something similar, the most important first step is finding a community partner who shares the vision of genuine co-design &mdash; not just consultation.</p>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: WHAT WE DISCOVERED
+     ======================================== -->
+<section class="page" id="page-discoveries" aria-label="What We Discovered">
+  <div class="container">
+    <div class="page-header">
+      <h1>Everyone talks to AI like it's Google. That was the first thing we noticed.</h1>
+    </div>
+
+    <div class="body-text content-width">
+      <p>When people first tried AI, they typed short queries &mdash; a few words, hit enter, wait for results. But AI isn't a search engine. It's a conversation.</p>
+      <p>Once we started exploring that together, everything changed. People began talking naturally, sharing context, saying what they actually needed. And a few simple discoveries made a big difference: you can ask it to slow down. You can say "make that simpler." You can interrupt it &mdash; you can't hurt its feelings.</p>
+    </div>
+
+    <div class="moment">
+      <span class="moment-label">Moment</span>
+      <p>Someone asked AI to explain what it was. The answer came back full of technical jargon &mdash; "neural network" this, "language model" that. They asked for simpler terms. AI compared itself to a librarian who's read millions of books. "That makes sense."</p>
+    </div>
+
+    <div class="moment">
+      <span class="moment-label">Moment</span>
+      <p>AI was talking too fast, giving overwhelming instructions. Someone said "can you slow down please?" It did, but the content was still too complex. "I'm sorry, I still don't understand what you mean." AI completely changed its approach.</p>
+    </div>
+
+    <div class="moment">
+      <span class="moment-label">Moment</span>
+      <p>People naturally waited for AI to finish, even when it was going off track &mdash; the way you would with a person. Then someone learned: "You can interrupt it. You can't hurt its feelings." That changed everything.</p>
+    </div>
+
+    <!-- Video placeholder -->
+    <div class="video-placeholder" role="img" aria-label="Video of key moments with AI">
+      <div class="play-icon">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="placeholder-label">Audio and video of these moments</span>
+    </div>
+    <p class="video-caption">Recordings from our sessions. Coming soon.</p>
+
+    <div class="body-text content-width" style="margin-top: var(--space-2xl);">
+      <p>These small things gave people real control. Over time they became natural habits &mdash; foundational skills for directing AI. We're still learning how best to introduce them, but one thing is clear: they emerge best through real conversation, not instruction.</p>
+    </div>
+
+    <!-- Tip videos placeholder -->
+    <div class="content-placeholder">
+      <span class="placeholder-badge">Coming soon</span>
+      <p>Short tip videos created by the influencers themselves, sharing what they learned about talking to AI.</p>
+    </div>
+
+    <!-- Reflections placeholder -->
+    <div class="content-placeholder">
+      <span class="placeholder-badge">Coming soon</span>
+      <p>Reflections from team members and influencers on the discovery process.</p>
+    </div>
+
+    <!-- Depth layers -->
+    <div class="depth-layers">
+      <p class="depth-layers-title">Go deeper</p>
+      <div class="depth-grid">
+
+        <div class="depth-card" data-audience="anyone">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For anyone curious</p>
+              <p class="depth-desc">The five foundational skills we identified and how they work.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>We identified five skills that emerged naturally: Comprehension Control, Direction Setting, Intention Clarification, Boundary Setting, and Process Control. Each one gives people a way to shape the conversation with AI.</p>
+            <p><a href="#" data-page="foundational-skills">Read the full foundational skills reference &rarr;</a></p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="support">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For support workers</p>
+              <p class="depth-desc">How to help someone shift from "search mode" to natural conversation with AI.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The biggest shift is from typing keywords to talking naturally. You can help by modeling it &mdash; talk to AI out loud, show that it's okay to use full sentences, to say "I don't understand," to start over.</p>
+            <p>Don't correct someone's phrasing. If they say "make it easy," that works just as well as "simplify this." AI adapts. Let people find their own language for directing it.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="research">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For researchers</p>
+              <p class="depth-desc">The theoretical framework behind the foundational skills and their emergence patterns.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The foundational skills framework emerged through grounded analysis of session recordings and field notes. We observed consistent patterns across participants, despite varied starting points and goals.</p>
+            <p>The skills align with but extend existing frameworks in assistive technology adoption, adding the dimension of AI's unique affordances: infinite patience, no judgment, and consequence-free correction.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="dev">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For app developers</p>
+              <p class="depth-desc">How to embed these skills into your app's interaction patterns.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>If you're building AI-powered tools, consider how your interface supports these natural interactions. Can users easily say "make this simpler"? Is there a visible way to interrupt or redirect? Does the app teach these skills through use, not instruction?</p>
+            <p>The diet tracking app (see Building Together) is our attempt at this. Every design decision was informed by how people naturally direct AI.</p>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: BUILDING TOGETHER
+     ======================================== -->
+<section class="page" id="page-building" aria-label="Building Together">
+  <div class="container">
+    <div class="page-header">
+      <h1>Understanding someone first changes everything you build.</h1>
+    </div>
+
+    <!-- Zone 1: The Story -->
+    <div class="body-text content-width">
+      <p>Mary had been tracking her diet for years &mdash; in eight handwritten notebooks. She knew exactly what she needed: a way to track sodium and fluid intake. But the AI tools she'd tried didn't understand her. They gave generic meal plans. They used complicated interfaces. They didn't listen.</p>
+    </div>
+
+    <div class="moment">
+      <span class="moment-label">Moment</span>
+      <p>During a session, we realized: what if we just built it? Right here, right now? The team started prototyping in 20 minutes. Mary watched the screen, then started directing: "No, not like that. Simpler. I just need to drag the food."</p>
+    </div>
+
+    <div class="body-text content-width">
+      <p>What started as a quick experiment became a real tool. Mary went from observer to lead designer. She proposed two separate versions of the app &mdash; one for daily tracking, one for the conversation where the app gets to know you. She uses it every day.</p>
+    </div>
+
+    <div class="moment">
+      <span class="moment-label">Moment</span>
+      <p>When Mary saw the first working version of her tracker, she said: "This is what I've been doing with eight notebooks." Within minutes she was suggesting changes &mdash; not as feedback, but as direction.</p>
+    </div>
+
+    <!-- Video placeholder -->
+    <div class="video-placeholder" role="img" aria-label="Video of Mary and the design process">
+      <div class="play-icon">
+        <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+      </div>
+      <span class="placeholder-label">Mary's story and the design sessions</span>
+    </div>
+    <p class="video-caption">Video of Mary working with the team on the diet tracking app. Coming soon.</p>
+
+    <!-- Zone 2: Interactive App Breakdown -->
+    <div class="app-breakdown">
+      <h2 style="margin-bottom: var(--space-xl);">The app, annotated</h2>
+      <p class="content-width" style="margin-bottom: var(--space-xl); color: var(--color-text-secondary);">Click the numbered markers to learn about each part of the diet tracking app and the thinking behind it.</p>
+
+      <div class="app-container">
+        <div class="app-mockup">
+          <!-- App mockup placeholder -->
+          <div class="app-mockup-label">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="18" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="18" x2="12" y2="21"/></svg>
+            <p>Diet Tracking App</p>
+            <p style="font-size: 0.8rem; margin-top: var(--space-sm);">Interactive prototype view &mdash; screenshot coming soon</p>
+          </div>
+
+          <!-- Hotspots -->
+          <button class="hotspot" style="top: 8%; left: 12%;" data-hotspot="1" aria-label="Annotation 1: Login and onboarding">1</button>
+          <button class="hotspot" style="top: 20%; left: 50%;" data-hotspot="2" aria-label="Annotation 2: Getting to know you conversation">2</button>
+          <button class="hotspot" style="top: 40%; right: 12%;" data-hotspot="3" aria-label="Annotation 3: Personalization and memory">3</button>
+          <button class="hotspot" style="top: 55%; left: 30%;" data-hotspot="4" aria-label="Annotation 4: Drag and drop interface">4</button>
+          <button class="hotspot" style="top: 72%; left: 60%;" data-hotspot="5" aria-label="Annotation 5: Sodium and fluid tracking">5</button>
+          <button class="hotspot" style="bottom: 10%; left: 20%;" data-hotspot="6" aria-label="Annotation 6: Foundational skills in the design">6</button>
+        </div>
+
+        <!-- Slide-in panel -->
+        <div class="hotspot-panel" id="hotspot-panel">
+          <button class="hotspot-panel-close" aria-label="Close annotation">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+          <div id="hotspot-content"></div>
+        </div>
+      </div>
+
+      <!-- Mobile fallback: numbered list -->
+      <div class="hotspot-list" aria-label="App annotations">
+        <div class="hotspot-list-item">
+          <span class="item-number">1</span>
+          <h3>Simple sign-in</h3>
+          <p>Sign in using your Gmail account. No complex passwords or account creation &mdash; those are a major barrier for many people.</p>
+        </div>
+        <div class="hotspot-list-item">
+          <span class="item-number">2</span>
+          <h3>Getting to know you</h3>
+          <p>The app starts by having a conversation to understand you &mdash; your needs, your preferences, your goals. No forms. No settings screens.</p>
+        </div>
+        <div class="hotspot-list-item">
+          <span class="item-number">3</span>
+          <h3>It remembers what it learns</h3>
+          <p>The app keeps track of what it learns about you so it can give better suggestions over time, without asking the same questions again.</p>
+        </div>
+        <div class="hotspot-list-item">
+          <span class="item-number">4</span>
+          <h3>Pick a food, drag it to a meal</h3>
+          <p>A visual drag-and-drop interface. Simplicity was non-negotiable &mdash; Mary pushed back on every bit of unnecessary complexity.</p>
+        </div>
+        <div class="hotspot-list-item">
+          <span class="item-number">5</span>
+          <h3>Traffic light tracking</h3>
+          <p>Track daily sodium and fluid intake with a simple traffic light system. This replaced eight handwritten notebooks.</p>
+        </div>
+        <div class="hotspot-list-item">
+          <span class="item-number">6</span>
+          <h3>Built-in foundational skills</h3>
+          <p>You can always say "make this simpler" or "that's not what I meant." The foundational skills framework is embedded right into the design.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Depth layers -->
+    <div class="depth-layers">
+      <p class="depth-layers-title">Go deeper</p>
+      <div class="depth-grid">
+
+        <div class="depth-card" data-audience="support">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For support workers</p>
+              <p class="depth-desc">How to support someone through a co-design process like this one.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The key shift is from building for someone to building with them. Mary didn't just give feedback on what we built &mdash; she directed the design. Support workers can help by amplifying the person's voice, not interpreting it.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="research">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For researchers</p>
+              <p class="depth-desc">The understanding-first design principle and its implications for AI tool development.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Traditional app design starts with features and works backward to users. Our approach started with understanding &mdash; a conversation where the AI learns about the person before presenting any interface. This inverts the typical design process.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="dev">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For app developers</p>
+              <p class="depth-desc">Technical architecture: RAG integration, conversation design, and accessibility patterns.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>The app uses retrieval-augmented generation (RAG) to maintain personal context across sessions. The "getting to know you" conversation produces a structured profile that informs all subsequent interactions. Authentication is simplified to Google SSO to remove the password barrier.</p>
+          </div></div>
+        </div>
+
+        <div class="depth-card" data-audience="anyone">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For anyone curious</p>
+              <p class="depth-desc">Why the app talks to you before showing you anything.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Most apps start by showing you a screen full of options. This app starts by asking who you are and what you need. It feels more like meeting someone new than setting up software. That was a deliberate choice &mdash; and it came from Mary.</p>
+          </div></div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: WHAT EMERGED
+     ======================================== -->
+<section class="page" id="page-emerged" aria-label="What Emerged">
+  <div class="container">
+    <div class="body-text content-width">
+      <p style="font-size: 1.2rem; color: var(--color-text-secondary); margin-bottom: var(--space-2xl);">Through our conversations and co-design sessions, many threads surfaced. Some we explored deeply &mdash; like the diet tracking app. Others came up in a single conversation and haven't been pursued yet. All of them came from the same place: someone sharing what they actually needed.</p>
+      <p style="font-size: 1.3rem; font-weight: 500; font-family: 'Lexend', sans-serif; margin-bottom: var(--space-2xl);">Any of these could become the next project.</p>
+    </div>
+
+    <div class="usecase-grid">
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M3 7c0-1.1.9-2 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/><path d="M8 12h8"/><path d="M8 16h5"/></svg></div>
+        <div><h3>Meal planning and diet tracking</h3><p>The project we built with Mary &mdash; now a working app.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg></div>
+        <div><h3>Writing a speech</h3><p>Getting help organizing thoughts and finding the right words.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M2 18a1 1 0 0 0 1 1h18a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1H3a1 1 0 0 0-1 1v2z"/><path d="M10 15V7"/><path d="M14 15V7"/><path d="M6 15v-3a4 4 0 0 1 4-4h4a4 4 0 0 1 4 4v3"/></svg></div>
+        <div><h3>Help with a hearing aid</h3><p>Understanding settings and troubleshooting technology.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg></div>
+        <div><h3>Filling out government forms</h3><p>Making complex paperwork manageable and less intimidating.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M15 11h.01"/><path d="M11 15h.01"/><path d="M16 16h.01"/><path d="M2 16l20 6-6-20A20 20 0 0 0 2 16"/></svg></div>
+        <div><h3>Finding and adapting recipes</h3><p>Adjusting recipes for dietary needs and simpler instructions.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg></div>
+        <div><h3>Tech support and troubleshooting</h3><p>Getting step-by-step help with devices and software.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg></div>
+        <div><h3>Reading and understanding books</h3><p>Breaking down complex text into simpler language.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+        <div><h3>Writing emails</h3><p>Help composing clear, appropriate messages.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="10" r="3"/><path d="M12 21.7C17.3 17 20 13 20 10a8 8 0 1 0-16 0c0 3 2.7 7 8 11.7z"/></svg></div>
+        <div><h3>Navigating public transit</h3><p>Getting directions in plain, step-by-step language.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M2 12h4l3-9 6 18 3-9h4"/></svg></div>
+        <div><h3>Understanding news</h3><p>Making current events accessible and less overwhelming.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg></div>
+        <div><h3>Simplifying passwords and onboarding</h3><p>Making app sign-ups less of a barrier.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+        <div><h3>Recognizing and avoiding scams</h3><p>Learning to identify suspicious messages and requests.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></div>
+        <div><h3>Understanding privacy online</h3><p>Staying safe and knowing what information to share.</p></div>
+      </div>
+
+      <div class="usecase-card">
+        <div class="usecase-icon"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div><h3>Managing AI tool costs</h3><p>Understanding subscriptions and finding free options.</p></div>
+      </div>
+
+    </div>
+
+    <div class="body-text content-width" style="margin-top: var(--space-2xl);">
+      <p>Some of these are practical tasks where AI can help right now. Others are concerns the community raised that need more attention. What connects them is how they surfaced &mdash; not from a research agenda, but from people sharing what's actually going on in their lives.</p>
+    </div>
+
+    <!-- Reflections placeholder -->
+    <div class="content-placeholder">
+      <span class="placeholder-badge">Coming soon</span>
+      <p>Reflections from influencers about the possibilities they see for AI in their lives.</p>
+    </div>
+
+    <!-- Depth layers -->
+    <div class="depth-layers">
+      <p class="depth-layers-title">Go deeper</p>
+      <div class="depth-grid">
+        <div class="depth-card" data-audience="anyone">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For anyone curious</p>
+              <p class="depth-desc">How these use cases connect to the foundational skills.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Every one of these use cases involves the same foundational skills &mdash; asking AI to simplify, redirecting when it goes off track, clarifying your intent. The skills are transferable because they're about the conversation, not the task.</p>
+          </div></div>
+        </div>
+        <div class="depth-card" data-audience="research">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For researchers</p>
+              <p class="depth-desc">Patterns in how use cases surfaced and their implications for needs assessment.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>These use cases were not solicited through surveys or interviews. They emerged organically through conversation and exploration. This suggests that traditional needs assessments may miss what people actually need, because the format constrains what people think to share.</p>
+          </div></div>
+        </div>
+        <div class="depth-card" data-audience="org">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For organizations</p>
+              <p class="depth-desc">Which of these threads could become projects in your community.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Any of these use cases could be the starting point for a co-design project in your community. The approach is the same: start with real needs, explore AI together, and let the solution emerge from the people who will use it.</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: RESOURCES
+     ======================================== -->
+<section class="page" id="page-resources" aria-label="Resources">
+  <div class="container">
+    <div class="page-header">
+      <h1>Want to try some of this yourself?</h1>
+      <p class="content-width" style="font-size: 1.15rem; color: var(--color-text-secondary);">Here's what we've learned so far.</p>
+    </div>
+
+    <!-- Section: Tips -->
+    <div class="resource-section">
+      <h2>Tips for getting started with AI</h2>
+      <p>You don't need to be technical. Start by talking to it the way you'd talk to a person. If it says something confusing, ask it to make it simpler. If it gets something wrong, tell it. You can't hurt its feelings.</p>
+
+      <div class="content-placeholder">
+        <span class="placeholder-badge">Coming soon</span>
+        <p>Short tip videos created by the influencers, sharing what they learned about talking to AI.</p>
+      </div>
+    </div>
+
+    <!-- Section: Tools -->
+    <div class="resource-section">
+      <h2>Tools to try</h2>
+      <p>There are several AI tools you can start with. Here's a quick comparison of the most common ones.</p>
+
+      <div class="content-placeholder">
+        <span class="placeholder-badge">Coming soon</span>
+        <p>Comparison of ChatGPT, Claude, and Gemini &mdash; covering cost, voice capability, and ease of use.</p>
+      </div>
+    </div>
+
+    <!-- Section: Glossary -->
+    <div class="resource-section">
+      <h2>AI glossary</h2>
+      <p>Plain-language definitions for words you might hear when people talk about AI.</p>
+
+      <div class="accordion">
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>Artificial Intelligence (AI)</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            A computer program that can have conversations, answer questions, and help with tasks. Think of it like a very well-read assistant that's available anytime.
+          </div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>Chatbot</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            A program you can type or talk to. It reads what you say and writes back. ChatGPT, Claude, and Gemini are all chatbots.
+          </div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>Prompt</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            What you type or say to the AI. It can be a question, a request, or just something you want to talk about. There's no wrong way to prompt &mdash; just say what you need.
+          </div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>Large Language Model (LLM)</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            The technology behind chatbots like ChatGPT and Claude. It's a program that learned to write by reading a huge amount of text. It predicts what words come next, which is how it answers your questions.
+          </div></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-header" aria-expanded="false">
+            <span>Co-design</span>
+            <svg class="accordion-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="accordion-body"><div class="accordion-body-inner">
+            When the people who will use something help design it from the start. Not just giving feedback at the end &mdash; actually shaping what gets built and how it works.
+          </div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Section: Safety -->
+    <div class="resource-section">
+      <h2>Things to know about safety and privacy</h2>
+      <div class="content-placeholder">
+        <span class="placeholder-badge">Coming soon</span>
+        <p>Practical guidance about data, scams, and personal information &mdash; real talk, not disclaimers.</p>
+      </div>
+    </div>
+
+    <!-- Section: For support workers -->
+    <div class="resource-section">
+      <h2>For support workers</h2>
+      <p>Guidance on introducing AI to people with intellectual and developmental disabilities.</p>
+      <div class="content-placeholder">
+        <span class="placeholder-badge">Coming soon</span>
+        <p>Session templates, prompt libraries, and skill checklists for introducing AI in supported settings.</p>
+      </div>
+    </div>
+
+    <!-- Section: For organizations -->
+    <div class="resource-section">
+      <h2>For organizations</h2>
+      <p>Interested in starting a similar project? Here's what you'd need.</p>
+      <div class="content-placeholder">
+        <span class="placeholder-badge">Coming soon</span>
+        <p>Replication guide: partnerships, funding, ethics, and practical steps to get started.</p>
+      </div>
+    </div>
+
+    <!-- Depth layers -->
+    <div class="depth-layers">
+      <p class="depth-layers-title">Go deeper</p>
+      <div class="depth-grid">
+        <div class="depth-card" data-audience="support">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For support workers</p>
+              <p class="depth-desc">Detailed session guides and facilitation resources.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>We're developing detailed session guides based on what worked for us. These will include suggested activities, conversation starters, and troubleshooting tips for common challenges when introducing AI.</p>
+          </div></div>
+        </div>
+        <div class="depth-card" data-audience="org">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For organizations</p>
+              <p class="depth-desc">Full replication framework and partnership model.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Replicating this work requires three things: a community partner with established trust, technical capacity (which can be modest), and a commitment to genuine co-design. We're documenting our model so others can adapt it.</p>
+          </div></div>
+        </div>
+        <div class="depth-card" data-audience="research">
+          <div class="depth-card-header" role="button" tabindex="0" aria-expanded="false">
+            <div>
+              <p class="depth-audience">For researchers</p>
+              <p class="depth-desc">Methodology notes and research instruments.</p>
+            </div>
+            <span class="depth-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg></span>
+          </div>
+          <div class="depth-content"><div class="depth-content-inner">
+            <p>Our research instruments, consent processes, and analytical frameworks will be shared as part of the final research report. These are designed to be adapted by other research teams working in participatory contexts.</p>
+          </div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: ABOUT
+     ======================================== -->
+<section class="page" id="page-about" aria-label="About">
+  <div class="container">
+    <div class="page-header">
+      <h1>About this project</h1>
+    </div>
+
+    <div class="body-text content-width">
+      <p>This research project explores how people with intellectual and developmental disabilities can shape the development of AI tools through co-design. It's a collaboration between Centennial College and Community Living Toronto, funded by the Natural Sciences and Engineering Research Council of Canada (NSERC) through the College and Community Social Innovation Fund.</p>
+    </div>
+
+    <!-- The team -->
+    <h2 style="margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">The team</h2>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Team Member</h3>
+        <p class="team-role">Project Lead</p>
+        <p>Centennial College</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Team Member</h3>
+        <p class="team-role">Community Partner Lead</p>
+        <p>Community Living Toronto</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Mary</h3>
+        <p class="team-role">Co-Designer</p>
+        <p>CLTO Influencer</p>
+      </div>
+      <div class="team-card">
+        <div class="team-avatar"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <h3>Team Member</h3>
+        <p class="team-role">Researcher</p>
+        <p>Centennial College</p>
+      </div>
+    </div>
+
+    <div class="content-placeholder" style="margin-top: var(--space-lg);">
+      <span class="placeholder-badge">In development</span>
+      <p>Full team listing including all CLTO influencers acknowledged as co-designers.</p>
+    </div>
+
+    <!-- Partners -->
+    <h2 style="margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Our partners</h2>
+    <div class="body-text content-width">
+      <p><strong>Centennial College</strong> &mdash; Ontario's first community college, with deep roots in applied research and community engagement. The project is housed in the School of Engineering Technology and Applied Science.</p>
+      <p><strong>Community Living Toronto (CLTO)</strong> &mdash; A leading organization supporting people with intellectual and developmental disabilities to live, learn, and participate fully in their communities. CLTO's Influencer program creates opportunities for self-advocacy and community leadership.</p>
+    </div>
+
+    <!-- Timeline -->
+    <h2 style="margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Timeline</h2>
+    <p class="content-width" style="margin-bottom: var(--space-lg);">Funded from July 2023 through June 2026.</p>
+    <div class="timeline">
+      <div class="timeline-item">
+        <h3>Summer 2023</h3>
+        <p>Project funded. Partnership established between Centennial College and CLTO.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Fall 2023</h3>
+        <p>Initial interviews and getting to know the CLTO influencer community.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Winter &ndash; Spring 2024</h3>
+        <p>Exploration sessions begin. People try AI for the first time. Foundational skills emerge.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Summer 2024</h3>
+        <p>Co-design of the diet tracking app with Mary begins.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>Fall 2024 &ndash; Present</h3>
+        <p>App development continues. Documentation and knowledge sharing underway.</p>
+      </div>
+      <div class="timeline-item">
+        <h3>June 2026</h3>
+        <p>Final research report and project conclusion.</p>
+      </div>
+    </div>
+
+    <!-- Ethics -->
+    <h2 style="margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Ethics</h2>
+    <div class="body-text content-width">
+      <p>This research received ethics approval from Centennial College's Research Ethics Board. All participants provided informed consent. Consent was revisited throughout the project as activities evolved, and participants could withdraw at any time.</p>
+    </div>
+
+    <!-- Contact -->
+    <h2 style="margin-top: var(--space-3xl); margin-bottom: var(--space-lg);">Contact</h2>
+    <div class="content-placeholder">
+      <span class="placeholder-badge">In development</span>
+      <p>Contact information for the project team.</p>
+    </div>
+
+    <!-- Research report -->
+    <div style="margin-top: var(--space-3xl); text-align: center;">
+      <a href="#" style="display: inline-block; padding: var(--space-md) var(--space-xl); background: var(--color-primary); color: #fff; border-radius: var(--radius-btn); text-decoration: none; font-family: 'Lexend', sans-serif; font-weight: 500; font-size: 1.05rem; transition: background 0.15s ease;" onmouseover="this.style.background='var(--color-primary-dark)'" onmouseout="this.style.background='var(--color-primary)'">
+        Read the full research report &rarr;
+      </a>
+      <p style="margin-top: var(--space-sm); color: var(--color-text-muted); font-size: 0.9rem;">Available upon project completion in 2026.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     PAGE: FOUNDATIONAL SKILLS REFERENCE
+     ======================================== -->
+<section class="page" id="page-foundational-skills" aria-label="Foundational Skills Reference">
+  <div class="container">
+    <div class="page-header">
+      <h1>Foundational skills for directing AI</h1>
+      <p class="content-width" style="margin-top: var(--space-md); color: var(--color-text-secondary); font-size: 1.1rem;">These five skills emerged naturally when people with intellectual and developmental disabilities explored AI on their own terms. They weren't taught &mdash; they were discovered.</p>
+    </div>
+
+    <div class="skills-list">
+
+      <!-- Skill 1 -->
+      <div class="skill-card">
+        <h3>Comprehension Control</h3>
+        <p class="skill-subtitle">Shaping how AI communicates with you</p>
+        <p>When AI says something confusing, you don't have to just accept it. You can ask it to try again in simpler words. You're in charge of how the conversation goes.</p>
+        <div class="skill-phrases">
+          <span class="skill-phrase">"Make that simpler"</span>
+          <span class="skill-phrase">"Say that again"</span>
+          <span class="skill-phrase">"Use easier words"</span>
+          <span class="skill-phrase">"I don't understand"</span>
+        </div>
+        <p class="skill-why">Why it matters: AI defaults to complex language. But it can always simplify &mdash; you just have to ask. This one skill unlocks everything else.</p>
+      </div>
+
+      <!-- Skill 2 -->
+      <div class="skill-card">
+        <h3>Direction Setting</h3>
+        <p class="skill-subtitle">Steering the conversation where you need it to go</p>
+        <p>AI doesn't always know what you're looking for. You can point it in the right direction by telling it what you want more of, or telling it when it's off track.</p>
+        <div class="skill-phrases">
+          <span class="skill-phrase">"Tell me more about X"</span>
+          <span class="skill-phrase">"That's not what I'm looking for"</span>
+          <span class="skill-phrase">"Focus on this part"</span>
+          <span class="skill-phrase">"Can you give me an example?"</span>
+        </div>
+        <p class="skill-why">Why it matters: Without direction, AI gives generic answers. With it, AI becomes genuinely useful for your specific situation.</p>
+      </div>
+
+      <!-- Skill 3 -->
+      <div class="skill-card">
+        <h3>Intention Clarification</h3>
+        <p class="skill-subtitle">Correcting misunderstandings without starting over</p>
+        <p>Sometimes AI misunderstands what you meant. That's okay. You can correct it without starting the whole conversation over. AI doesn't get frustrated or confused when you redirect.</p>
+        <div class="skill-phrases">
+          <span class="skill-phrase">"That's not what I meant"</span>
+          <span class="skill-phrase">"Let me try again"</span>
+          <span class="skill-phrase">"I meant something different"</span>
+          <span class="skill-phrase">"No, I was asking about..."</span>
+        </div>
+        <p class="skill-why">Why it matters: With people, constant correction can be awkward. With AI, it's just part of the conversation. You can't hurt its feelings.</p>
+      </div>
+
+      <!-- Skill 4 -->
+      <div class="skill-card">
+        <h3>Boundary Setting</h3>
+        <p class="skill-subtitle">Deciding what you do and don't want to talk about</p>
+        <p>You're always in control of the conversation. If AI brings up something you don't want to discuss, you can stop it. If it's going somewhere you don't like, say so.</p>
+        <div class="skill-phrases">
+          <span class="skill-phrase">"Stop"</span>
+          <span class="skill-phrase">"I don't want to talk about that"</span>
+          <span class="skill-phrase">"Let's change the subject"</span>
+          <span class="skill-phrase">"That's too personal"</span>
+        </div>
+        <p class="skill-why">Why it matters: AI will respect any boundary you set, immediately and without question. This is one of its most important qualities.</p>
+      </div>
+
+      <!-- Skill 5 -->
+      <div class="skill-card">
+        <h3>Process Control</h3>
+        <p class="skill-subtitle">Managing the pace and structure of the conversation</p>
+        <p>AI sometimes moves too fast or gives too much at once. You can slow it down, ask it to break things into steps, or tell it to wait while you think.</p>
+        <div class="skill-phrases">
+          <span class="skill-phrase">"Go slower"</span>
+          <span class="skill-phrase">"Can we break this down?"</span>
+          <span class="skill-phrase">"One step at a time"</span>
+          <span class="skill-phrase">"Wait, let me think"</span>
+        </div>
+        <p class="skill-why">Why it matters: AI has no internal clock. It will wait as long as you need and break anything into smaller pieces. The pace is always yours to set.</p>
+      </div>
+
+    </div>
+
+    <!-- AI's unique affordances -->
+    <div style="margin-top: var(--space-3xl);">
+      <h2>Why AI is different</h2>
+      <div class="body-text content-width" style="margin-top: var(--space-lg);">
+        <p>These skills work differently with AI than with people, because AI has qualities that make practice safe and consequence-free:</p>
+        <p><strong>Infinite patience.</strong> AI never gets tired of explaining, never rushes you, and never gets annoyed when you ask the same thing again.</p>
+        <p><strong>No judgment.</strong> AI doesn't think less of you for not knowing something. There's no embarrassment in asking it to simplify.</p>
+        <p><strong>Consequence-free correction.</strong> You can interrupt, redirect, and start over as many times as you need. AI doesn't hold it against you.</p>
+      </div>
+    </div>
+
+    <!-- Key insight -->
+    <div class="moment" style="margin-top: var(--space-3xl);">
+      <span class="moment-label">Key Insight</span>
+      <p>These skills emerge best through natural conversation, not instruction. People don't need to be taught these skills &mdash; they need a safe space to discover them. The best way to learn to direct AI is to start talking to it about something you actually care about.</p>
+    </div>
+
+    <!-- Scaffolding -->
+    <div style="margin-top: var(--space-3xl);">
+      <h2>Building on these skills</h2>
+      <div class="body-text content-width" style="margin-top: var(--space-lg);">
+        <p><strong>Foundation:</strong> The five skills above. Most people discover these naturally within their first few conversations with AI.</p>
+        <p><strong>Intermediate:</strong> Combining skills &mdash; like setting direction and controlling pace at the same time. Using AI for longer, more complex tasks. Building confidence to try new things.</p>
+        <p><strong>Advanced:</strong> Using AI as a creative partner. Co-designing tools and workflows. Teaching others what you've learned. Advocating for AI that works the way you need it to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ========================================
+     FOOTER
+     ======================================== -->
+<footer class="site-footer" role="contentinfo">
+  <div class="footer-inner">
+    <div class="footer-partners">
+      <p><strong>A collaboration between Centennial College and Community Living Toronto.</strong></p>
+      <p>Funded by the Natural Sciences and Engineering Research Council of Canada (NSERC) through the College and Community Social Innovation Fund.</p>
+    </div>
+    <div class="footer-links">
+      <a href="#" data-page="about">About this project</a>
+      <a href="#" data-page="foundational-skills">Foundational Skills</a>
+      <a href="#">Accessibility statement</a>
+      <a href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ========================================
+     ACCESSIBILITY TOOLBAR
+     ======================================== -->
+<div class="a11y-toolbar" role="toolbar" aria-label="Accessibility options">
+  <button id="a11y-decrease" aria-label="Decrease text size" title="Decrease text size">A-</button>
+  <button id="a11y-reset" aria-label="Reset text size" title="Reset text size">A</button>
+  <button id="a11y-increase" aria-label="Increase text size" title="Increase text size">A+</button>
+  <button id="a11y-contrast" aria-label="Toggle high contrast" title="Toggle high contrast">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2v20a10 10 0 0 1 0-20z" fill="currentColor"/></svg>
+  </button>
+</div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ========================================
+  // SPA ROUTING
+  // ========================================
+  function navigateTo(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(function(p) {
+      p.classList.remove('active');
+    });
+
+    // Show target page
+    var target = document.getElementById('page-' + pageId);
+    if (target) {
+      target.classList.add('active');
+    } else {
+      // Default to home
+      document.getElementById('page-home').classList.add('active');
+      pageId = 'home';
+    }
+
+    // Update nav active states
+    document.querySelectorAll('.nav-links a, .nav-overlay a').forEach(function(link) {
+      link.classList.toggle('active', link.getAttribute('data-page') === pageId);
+    });
+
+    // Close mobile menu
+    closeMobileMenu();
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // Update URL hash
+    history.pushState(null, '', '#' + pageId);
+
+    // Announce page change for screen readers
+    var heading = target ? target.querySelector('h1') : null;
+    if (heading) {
+      document.title = heading.textContent + ' — AI Co-Design Project';
+    }
+  }
+
+  // Handle all navigation clicks
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('[data-page]');
+    if (link) {
+      e.preventDefault();
+      navigateTo(link.getAttribute('data-page'));
+    }
+  });
+
+  // Handle keyboard navigation on data-page elements
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      var link = e.target.closest('[data-page]');
+      if (link && link.tagName !== 'A') {
+        e.preventDefault();
+        navigateTo(link.getAttribute('data-page'));
+      }
+    }
+  });
+
+  // Handle browser back/forward
+  window.addEventListener('popstate', function() {
+    var hash = location.hash.replace('#', '') || 'home';
+    navigateTo(hash);
+  });
+
+  // Initial route
+  var initialPage = location.hash.replace('#', '') || 'home';
+  if (initialPage !== 'home') {
+    navigateTo(initialPage);
+  }
+
+  // ========================================
+  // MOBILE MENU
+  // ========================================
+  var hamburger = document.querySelector('.nav-hamburger');
+  var overlay = document.querySelector('.nav-overlay');
+
+  function closeMobileMenu() {
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', 'false');
+    overlay.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  hamburger.addEventListener('click', function() {
+    var isOpen = hamburger.classList.toggle('open');
+    hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    overlay.classList.toggle('open');
+    document.body.style.overflow = isOpen ? 'hidden' : '';
+  });
+
+  // ========================================
+  // STICKY NAV SHADOW
+  // ========================================
+  var nav = document.querySelector('.site-nav');
+  window.addEventListener('scroll', function() {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  // ========================================
+  // DEPTH LAYERS (Accordion)
+  // ========================================
+  document.querySelectorAll('.depth-card-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var card = header.closest('.depth-card');
+      var wasExpanded = card.classList.contains('expanded');
+
+      // Close siblings (accordion behavior)
+      var parent = card.closest('.depth-grid');
+      if (parent) {
+        parent.querySelectorAll('.depth-card.expanded').forEach(function(c) {
+          c.classList.remove('expanded');
+          c.querySelector('.depth-card-header').setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      // Toggle this one
+      if (!wasExpanded) {
+        card.classList.add('expanded');
+        header.setAttribute('aria-expanded', 'true');
+      }
+    });
+
+    header.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        header.click();
+      }
+    });
+  });
+
+  // ========================================
+  // GLOSSARY ACCORDION
+  // ========================================
+  document.querySelectorAll('.accordion-header').forEach(function(header) {
+    header.addEventListener('click', function() {
+      var item = header.closest('.accordion-item');
+      var wasExpanded = item.classList.contains('expanded');
+
+      // Close siblings
+      var parent = item.closest('.accordion');
+      if (parent) {
+        parent.querySelectorAll('.accordion-item.expanded').forEach(function(i) {
+          i.classList.remove('expanded');
+          i.querySelector('.accordion-header').setAttribute('aria-expanded', 'false');
+        });
+      }
+
+      if (!wasExpanded) {
+        item.classList.add('expanded');
+        header.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
+
+  // ========================================
+  // HOTSPOT INTERACTIONS (Building Together)
+  // ========================================
+  var hotspotData = {
+    '1': {
+      title: 'Simple sign-in',
+      surface: 'Sign in using your Gmail account. No complex passwords or account creation \u2014 those are a major barrier for many people.',
+      detail: 'We chose Google SSO because it removes the biggest friction point: remembering yet another password. Complex account creation processes are one of the most common barriers to technology adoption for people with IDD. One tap, and you\'re in.'
+    },
+    '2': {
+      title: 'Getting to know you',
+      surface: 'The app starts by having a conversation to understand you \u2014 your needs, your preferences, your goals. No forms. No settings screens.',
+      detail: 'This is the "understanding-first" principle. Instead of presenting a blank interface and asking users to figure it out, the app initiates a natural conversation. It asks about dietary needs, preferences, and goals before showing any tracking features. This conversation creates the foundation for personalized interactions.'
+    },
+    '3': {
+      title: 'It remembers what it learns',
+      surface: 'The app keeps track of what it learns about you so it can give better suggestions over time, without asking the same questions again.',
+      detail: 'The app uses retrieval-augmented generation (RAG) to maintain a personal context profile. Information from the onboarding conversation and ongoing interactions is stored and used to personalize responses. The AI doesn\'t start from scratch each time \u2014 it builds on what it already knows about you.'
+    },
+    '4': {
+      title: 'Pick a food, drag it to a meal',
+      surface: 'A visual drag-and-drop interface. Simplicity was non-negotiable \u2014 Mary pushed back on every bit of unnecessary complexity.',
+      detail: 'Early prototypes had more complex interfaces with search bars, categories, and filters. Mary rejected all of it. "I just need to drag the food." The visual grid of foods with drag-to-meal interaction emerged directly from her direction. Every added feature had to justify its existence to the person using it.'
+    },
+    '5': {
+      title: 'Traffic light tracking',
+      surface: 'Track daily sodium and fluid intake with a simple traffic light system. This replaced eight handwritten notebooks.',
+      detail: 'Mary had been tracking her sodium and fluid intake by hand in eight notebooks. The traffic light system (green = good, yellow = watch it, red = over limit) gives the same information at a glance. Mary proposed having two separate interfaces: one for daily tracking and one for the conversation/learning side.'
+    },
+    '6': {
+      title: 'Built-in foundational skills',
+      surface: 'You can always say "make this simpler" or "that\'s not what I meant." The foundational skills framework is embedded right into the design.',
+      detail: 'The five foundational skills aren\'t just an observation \u2014 they\'re built into the app\'s interaction patterns. The UI surfaces prompts like "ask me to simplify" and "tell me if I got it wrong." The app teaches these skills through use, not instruction, by making them visible and natural parts of every interaction.'
+    }
+  };
+
+  var panel = document.getElementById('hotspot-panel');
+  var panelContent = document.getElementById('hotspot-content');
+  var panelClose = document.querySelector('.hotspot-panel-close');
+
+  document.querySelectorAll('.hotspot').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var id = btn.getAttribute('data-hotspot');
+      var data = hotspotData[id];
+      if (!data) return;
+
+      panelContent.innerHTML =
+        '<h3>' + data.title + '</h3>' +
+        '<p>' + data.surface + '</p>' +
+        '<button class="more-detail-toggle" onclick="this.nextElementSibling.classList.toggle(\'visible\'); this.textContent = this.nextElementSibling.classList.contains(\'visible\') ? \'Less detail\' : \'More detail\';">More detail</button>' +
+        '<div class="hotspot-detail"><p>' + data.detail + '</p></div>';
+
+      panel.classList.add('active');
+    });
+  });
+
+  if (panelClose) {
+    panelClose.addEventListener('click', function() {
+      panel.classList.remove('active');
+    });
+  }
+
+  // ========================================
+  // ACCESSIBILITY TOOLBAR
+  // ========================================
+  var currentSize = 100;
+  var contrastBtn = document.getElementById('a11y-contrast');
+
+  document.getElementById('a11y-decrease').addEventListener('click', function() {
+    currentSize = Math.max(80, currentSize - 10);
+    document.documentElement.style.fontSize = currentSize + '%';
+  });
+
+  document.getElementById('a11y-reset').addEventListener('click', function() {
+    currentSize = 100;
+    document.documentElement.style.fontSize = '100%';
+  });
+
+  document.getElementById('a11y-increase').addEventListener('click', function() {
+    currentSize = Math.min(200, currentSize + 10);
+    document.documentElement.style.fontSize = currentSize + '%';
+  });
+
+  contrastBtn.addEventListener('click', function() {
+    document.body.classList.toggle('high-contrast');
+    contrastBtn.classList.toggle('active-toggle');
+  });
+
+})();
+</script>
+
+</body>
+</html>
